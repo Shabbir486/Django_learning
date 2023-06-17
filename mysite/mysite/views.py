@@ -110,5 +110,5 @@ def testPostMapping(request):
     return render(request,'test3.html')
 
 def testGit(request):
-    return HttpResponse("Success")
+    return HttpResponse("Test Success")
 

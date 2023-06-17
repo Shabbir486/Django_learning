@@ -54,47 +54,43 @@ def analyze(request):
     newlineremover = request.POST.get ( 'newlineremover' , 'off' )
     extraspaceremover = request.POST.get ( 'extraspaceremover' , 'off' )
 
-    punctuation='''!"#$%&'()*+, -./:;<=>?@[\]^_`{|}~'''
-    analyzed=""
-    if removepunc == 'on' :
-        for char in recText :
-            if char not in punctuation :
-                analyzed = analyzed + char
-        params = { 'purpose' : 'Remove Punctuation' , 'analyze' : analyzed }
-        return render(request , "analyze.html" , params)
-
-    elif (fullcaps == "on") :
+    if removepunc == "on":
+        punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
         analyzed = ""
-        for char in recText :
-            analyzed = analyzed + char.upper ( )
-
-        params = { 'purpose' : 'Changed to Uppercase' , 'analyze' : analyzed }
-        # Analyze the text
-        return render ( request , 'analyze.html' , params )
-
-    elif (extraspaceremover == "on") :
-        analyzed = ""
-        for index,char in enumerate(recText):
-            if not (recText[ index ] == " " and recText [ index + 1 ] == " ") :
+        for char in recText:
+            if char not in punctuations:
                 analyzed = analyzed + char
-
-        params = { 'purpose' : 'Removed NewLines' , 'analyze' : analyzed }
-        # Analyze the text
-        return render ( request , 'analyze.html' , params )
-
-    elif (newlineremover == "on") :
+        params = {'purpose': 'Removed Punctuations', 'analyzed_text': analyzed}
+        recText = analyzed
+        # return render(request, 'analyze.html', params)
+    if fullcaps == "on":
         analyzed = ""
-        for char in recText :
-            if char != "\n" :
+        for char in recText:
+            analyzed = analyzed + char.upper()
+        params = {'purpose': 'Change To Uppercase', 'analyzed_text': analyzed}
+        recText = analyzed
+        # return render(request, 'analyze.html', params)
+    if (newlineremover == "on"):
+        analyzed = ""
+        for char in recText:
+            if char != "\n" and char != "\r":
                 analyzed = analyzed + char
+        params = {'purpose': 'Removed NewLines', 'analyzed_text': analyzed}
+        recText = analyzed
 
-        params = { 'purpose' : 'Removed NewLines' , 'analyze' : analyzed }
-        # Analyze the text
-        return render ( request , 'analyze.html' , params )
+    if (extraspaceremover == "on"):
+        analyzed = ""
+        for index, char in enumerate(recText):
+            if not (recText[index] == " " and recText[index + 1] == " "):
+                analyzed = analyzed + char
+        params = {'purpose': 'Change To Uppercase', 'analyzed_text': analyzed}
+        recText = analyzed
+        # return render(request, 'analyze.html', params)
 
-    else :
-        pass
-    return HttpResponse("Error")
+    if (removepunc != "on" and newlineremover != "on" and extraspaceremover != "on" and fullcaps != "on"):
+        return HttpResponse("please select any operation and try again")
+
+    return render(request, 'analyze.html', params)
 
 # Lecture 13
 def testBootstrap(request):
@@ -109,6 +105,8 @@ def testPostMapping(request):
     # Check the index function
     return render(request,'test3.html')
 
-def testGit(request):
-    return HttpResponse("Test Success")
+# Lecture 17
+# Fixing the bugs in our demo website like 2 functions works simultaneously
+
+
 

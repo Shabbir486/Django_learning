@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mysite</title>
+</head>
+<body>
+<!--Lecture 9-->
+<!--<h1>Welcome to the text analyzer: Enter your text below</h1>-->
+<!--<form action="/index" method="get">-->
+<!--  <textarea name="text" style="height:100px; width:500px; margin:0px"></textarea><br>-->
+<!--  <button type="submit">Analyze</button>-->
+<!--</form>-->
+
+<!--Lecture-10-->
+<h1>Welcome to the text analyzer: Enter your text below</h1>
+<form action="/analyze" method="get">
+  <textarea name="text" style="height:100px; width:500px; margin:0px"></textarea><br>
+    <input type="checkbox" name="removepunc">Remove Punctuation<br>
+<!--    Lecture-12-->
+    <input type="checkbox" name="fullcaps"> UPPERCASE<br>
+    <input type="checkbox" name="newlineremover"> New Line Remover<br>
+    <input type="checkbox" name="extraspaceremover"> Extra Spaces Remover<br>
+  <button type="submit">Analyze</button>
+</form>
+</body>
+</html>

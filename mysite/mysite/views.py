@@ -109,3 +109,6 @@ def testPostMapping(request):
     # Check the index function
     return render(request,'test3.html')
 
+def testGit(request):
+    return HttpResponse("Success")
+

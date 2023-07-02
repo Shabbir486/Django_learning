@@ -1,15 +1,37 @@
 from rest_framework import serializers
-from .models import Book
+from .models import Book, Author
+
+
+
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ['id', 'name', 'birth_date']
 
 class BookSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(required=False)
+
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = ['id', 'title', 'author', 'publication_date']
+
+    def update(self, instance, validated_data):
+        author_data = validated_data.pop('author', None)
+        if author_data:
+            author_instance = instance.author
+            for attr, value in author_data.items():
+                setattr(author_instance, attr, value)
+            # author_serializer = AuthorSerializer(instance.author, data=author_data,partial=True)
+            # if author_serializer.is_valid():
+            author_instance.save()
+            # else:
+            #     raise serializers.ValidationError(author_serializer.errors)
+        return super().update(instance, validated_data)
 
     def validate_title(self, value):
         # Example of field-specific validation
-        if len(value) < 5:
-            raise serializers.ValidationError("Title must be at least 5 characters long.")
+        if len (value) < 5:
+            raise serializers.ValidationError ("Title must be at least 5 characters long.")
         return value
 
     # def validate(self, attrs):
@@ -20,7 +42,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Example of custom create method
-        book = Book.objects.create(**validated_data)
+        book = Book.objects.create (**validated_data)
         return book
 
     # def update(self, instance, validated_data):

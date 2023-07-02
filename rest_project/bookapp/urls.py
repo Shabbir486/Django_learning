@@ -8,6 +8,7 @@ from bookapp.views import (
     BookUpdateView,
     BookDestroyView,
     getAllBooks,
+    BookSerializerHyperlinked
 )
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     path('books/<int:pk>/retrieve/', BookRetrieveView.as_view(), name='book-retrieve'),
     path('books/<int:pk>/update/', BookUpdateView.as_view(), name='book-update'),
     path('books/<int:pk>/destroy/', BookDestroyView.as_view(), name='book-destroy'),
+    path('books/getAll/', BookSerializerHyperlinked.as_view(), name='book-get'),
 ]

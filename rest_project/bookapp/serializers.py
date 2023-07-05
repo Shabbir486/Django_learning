@@ -16,6 +16,8 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ['id', 'title', 'author', 'publication_date']
 
+    # If you want to do partially update any fields including the foreign key elements
+    # here by using for loop you can update the fields of foreign key elements but Primary key is required
     def update(self, instance, validated_data):
         author_data = validated_data.pop('author', None)
         if author_data:
